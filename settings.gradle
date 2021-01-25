@@ -1,0 +1,6 @@
+rootProject.name = "logoce"
+
+include 'logoce.extender'
+include 'logoce.adapter'
+include 'logoce.notification'
+
