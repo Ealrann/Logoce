@@ -22,7 +22,7 @@ subprojects {
 
 	afterEvaluate {
 		repositories {
-			jcenter()
+			mavenCentral()
 		}
 	}
 }
