@@ -7,7 +7,6 @@ import org.logoce.extender.api.reflect.ConstructorHandle;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class ExtenderBuilder<Extender extends IAdapter>
@@ -24,7 +23,7 @@ public final class ExtenderBuilder<Extender extends IAdapter>
 	public Extender build(final IAdaptable target,
 						  final Stream<? extends IParameterResolver> resolvers) throws ReflectiveOperationException
 	{
-		final var resolverList = resolvers.collect(Collectors.toUnmodifiableList());
+		final var resolverList = resolvers.toList();
 		final var javaConstructor = constructorHandle.getJavaConstructor();
 		final var paramTypes = javaConstructor.getParameterTypes();
 		final var paramAnnotations = javaConstructor.getParameterAnnotations();

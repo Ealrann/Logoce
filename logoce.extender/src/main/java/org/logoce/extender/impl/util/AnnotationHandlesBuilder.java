@@ -7,7 +7,6 @@ import org.logoce.extender.api.reflect.ReflectUtils;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class AnnotationHandlesBuilder<T extends Annotation>
@@ -36,7 +35,7 @@ public final class AnnotationHandlesBuilder<T extends Annotation>
 	{
 		final var handles = methods.stream()
 								   .map(m -> buildAnnotationHandle(adapter, m))
-								   .collect(Collectors.toUnmodifiableList());
+								   .toList();
 
 		return new AnnotationHandleGroup<>(annotationClass, handles);
 	}
@@ -52,7 +51,7 @@ public final class AnnotationHandlesBuilder<T extends Annotation>
 		return annotationHandle;
 	}
 
-	public static record ExecutionMethod<T extends Annotation>(ReflectUtils.AnnotatedMethod<T> method,
+	public record ExecutionMethod<T extends Annotation>(ReflectUtils.AnnotatedMethod<T> method,
 															   IExecutionHandleBuilder executionHandleBuilder)
 	{}
 }

@@ -5,7 +5,6 @@ import org.logoce.extender.api.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class BasicAdapterManager implements IAdapterManager
@@ -18,9 +17,10 @@ public final class BasicAdapterManager implements IAdapterManager
 	public BasicAdapterManager(final IAdaptable target)
 	{
 		this.target = target;
+
 		handles = IAdapterDescriptorRegistry.INSTANCE.descriptors(target)
-													 .map(HandleWrapper::new)
-													 .collect(Collectors.toUnmodifiableList());
+													 .<HandleWrapper<?>>map(HandleWrapper::new)
+													 .toList();
 	}
 
 	public void load()
@@ -44,19 +44,21 @@ public final class BasicAdapterManager implements IAdapterManager
 	@Override
 	public <T extends IAdapter> T adapt(final Class<T> type)
 	{
-		return this.<T>handles(filter(type)).map(IAdapterHandle::getExtender)
-											.filter(Objects::nonNull)
-											.findAny()
-											.orElse(null);
+		return this.<T>handles(filter(type))
+				   .map(IAdapterHandle::getExtender)
+				   .filter(Objects::nonNull)
+				   .findAny()
+				   .orElse(null);
 	}
 
 	@Override
 	public <T extends IAdapter> T adapt(final Class<T> type, final String identifier)
 	{
-		return this.<T>handles(filter(type, identifier)).map(IAdapterHandle::getExtender)
-														.filter(Objects::nonNull)
-														.findAny()
-														.orElse(null);
+		return this.<T>handles(filter(type, identifier))
+				   .map(IAdapterHandle::getExtender)
+				   .filter(Objects::nonNull)
+				   .findAny()
+				   .orElse(null);
 	}
 
 	@Override

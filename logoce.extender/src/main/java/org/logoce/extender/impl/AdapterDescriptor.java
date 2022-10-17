@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.ServiceLoader;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class AdapterDescriptor<Extender extends IAdapter> implements IAdapterDescriptor<Extender>
@@ -20,7 +19,7 @@ public final class AdapterDescriptor<Extender extends IAdapter> implements IAdap
 	private static final List<IAdaptableNameMatcher> nameMatchers = ServiceLoader.load(IAdaptableNameMatcher.class)
 																				 .stream()
 																				 .map(ServiceLoader.Provider::get)
-																				 .collect(Collectors.toUnmodifiableList());
+																				 .toList();
 
 	private final ModelExtender annotation;
 	private final Class<Extender> extenderClass;
@@ -45,7 +44,7 @@ public final class AdapterDescriptor<Extender extends IAdapter> implements IAdap
 		final var extender = extenderBuilder.build(target, resolvers);
 		final var annotationHandles = executionHandleBuilders.stream()
 															 .map(builder -> builder.build(extender))
-															 .collect(Collectors.toUnmodifiableList());
+															 .toList();
 		return new ExtenderContext<>(extender, new AnnotationHandles(annotationHandles));
 	}
 

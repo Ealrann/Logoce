@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 public interface IAdapterDescriptorRegistry
 {
 	Stream<IAdapterDescriptor<?>> streamDescriptors();
-	Stream<DescriptorContext<?>> descriptors(final IAdaptable target);
+	Stream<DescriptorContext<? extends IAdapter>> descriptors(final IAdaptable target);
 	<T extends IAdapter> Stream<IAdapterDescriptor<T>> streamDescriptors(final IAdaptable target, final Class<T> type);
 
 	IAdapterDescriptorRegistry INSTANCE = ServiceLoader.load(IAdapterDescriptorRegistry.class)

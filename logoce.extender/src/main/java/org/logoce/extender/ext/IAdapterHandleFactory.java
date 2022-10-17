@@ -7,7 +7,6 @@ import org.logoce.extender.api.IAdapterExtension;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.ServiceLoader;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public interface IAdapterHandleFactory
@@ -18,5 +17,5 @@ public interface IAdapterHandleFactory
 
 	List<IAdapterHandleFactory> FACTORIES = StreamSupport.stream(ServiceLoader.load(IAdapterHandleFactory.class)
 																			  .spliterator(), false)
-														 .collect(Collectors.toUnmodifiableList());
+														 .toList();
 }

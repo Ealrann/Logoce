@@ -9,21 +9,20 @@ import org.logoce.extender.impl.AdapterDescriptor;
 import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.List;
 import java.util.ServiceLoader;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public record DescriptorContextBuilder<T extends IAdapter>(AdapterDescriptor<T> descriptor														   )
+public record DescriptorContextBuilder<T extends IAdapter>(AdapterDescriptor<T> descriptor)
 {
-	public static <T extends IAdapter> IAdapterDescriptorRegistry.DescriptorContext<T> build(final AdapterDescriptor<T> descriptor																							 )
+	public static <T extends IAdapter> IAdapterDescriptorRegistry.DescriptorContext<T> build(final AdapterDescriptor<T> descriptor)
 	{
 		return new DescriptorContextBuilder<>(descriptor).build();
 	}
 
 	private static final List<IAdapterExtension.Descriptor> adapterExtensions = StreamSupport.stream(ServiceLoader.load(
-			IAdapterExtension.Descriptor.class)
+																														  IAdapterExtension.Descriptor.class)
 																												  .spliterator(),
 																									 false)
-																							 .collect(Collectors.toUnmodifiableList()) ;
+																							 .toList();
 
 	public IAdapterDescriptorRegistry.DescriptorContext<T> build()
 	{

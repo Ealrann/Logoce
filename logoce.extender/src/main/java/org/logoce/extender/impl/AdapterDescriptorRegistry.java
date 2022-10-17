@@ -1,16 +1,11 @@
 package org.logoce.extender.impl;
 
-import org.logoce.extender.api.IAdaptable;
-import org.logoce.extender.api.IAdapter;
-import org.logoce.extender.api.IAdapterDescriptor;
-import org.logoce.extender.api.IAdapterProvider;
-import org.logoce.extender.api.IAdapterDescriptorRegistry;
+import org.logoce.extender.api.*;
 import org.logoce.extender.impl.util.DescriptorContextBuilder;
 import org.logoce.extender.impl.util.ExtenderDescriptorBuilder;
 
 import java.lang.invoke.MethodHandles;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class AdapterDescriptorRegistry implements IAdapterDescriptorRegistry
@@ -32,8 +27,8 @@ public final class AdapterDescriptorRegistry implements IAdapterDescriptorRegist
 		descriptors = extenderMap.extenderClasses.stream()
 												 .map(descriptorBuilder::build)
 												 .flatMap(Optional::stream)
-												 .map(DescriptorContextBuilder::build)
-												 .collect(Collectors.toUnmodifiableList());
+												 .<DescriptorContext<?>>map(DescriptorContextBuilder::build)
+												 .toList();
 	}
 
 	@Override

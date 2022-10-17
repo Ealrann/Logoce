@@ -34,10 +34,7 @@ public final class ExtenderDescriptorBuilder
 			final var constructorHandle = buildConstructorHandle(type);
 			final var executionHandles = executionHandles(type);
 
-			final var res = new AdapterDescriptor<>(constructorHandle,
-													modelExtenderAnnotation,
-													type,
-													executionHandles);
+			final var res = new AdapterDescriptor<>(constructorHandle, modelExtenderAnnotation, type, executionHandles);
 			return Optional.of(res);
 		}
 		catch (ReflectiveOperationException e)
@@ -54,8 +51,8 @@ public final class ExtenderDescriptorBuilder
 																.annotationType()))
 						   .entrySet()
 						   .stream()
-						   .map(this::buildAnnotationHandlesBuilder)
-						   .collect(Collectors.toUnmodifiableList());
+						   .<AnnotationHandlesBuilder<?>>map(this::buildAnnotationHandlesBuilder)
+						   .toList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -67,7 +64,7 @@ public final class ExtenderDescriptorBuilder
 		final var executionMethods = methods.map(this::buildExecutionMethod)
 											.filter(Optional::isPresent)
 											.map(Optional::get)
-											.collect(Collectors.toUnmodifiableList());
+											.toList();
 		return new AnnotationHandlesBuilder<>(entry.getKey(), executionMethods);
 	}
 

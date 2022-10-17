@@ -1,12 +1,11 @@
 package org.logoce.adapter.impl;
 
+import org.logoce.adapter.api.Adapter;
 import org.logoce.extender.api.*;
 import org.logoce.extender.ext.IAdapterHandleBuilder;
-import org.logoce.adapter.api.Adapter;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public final class AdapterHandleBuilder<T extends IAdapter> implements IAdapterHandleBuilder<T>
 {
@@ -37,7 +36,7 @@ public final class AdapterHandleBuilder<T extends IAdapter> implements IAdapterH
 		{
 			final var extensionBuilders = extensionDescriptors.stream()
 															  .map(IAdapterExtension.Descriptor::newBuilder)
-															  .collect(Collectors.toUnmodifiableList());
+															  .toList();
 			final var parameterResolvers = extensionBuilders.stream()
 															.map(IAdapterExtension.Builder::parameterResolver)
 															.filter(Optional::isPresent)
@@ -45,7 +44,7 @@ public final class AdapterHandleBuilder<T extends IAdapter> implements IAdapterH
 			final var extenderContext = extenderDescriptor.newExtender(target, parameterResolvers);
 			final var extensions = extensionBuilders.stream()
 													.map(builder -> builder.build(extenderContext))
-													.collect(Collectors.toUnmodifiableList());
+													.toList();
 			return buildNewHandle(extenderContext, extensions);
 		}
 		catch (ReflectiveOperationException e)

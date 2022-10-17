@@ -16,17 +16,16 @@ public final class ReflectUtils
 
 	public static <T extends IAdapter> T constructNew(Class<T> classifier)
 	{
-		T res = null;
 		try
 		{
 			final Constructor<T> constructor = classifier.getConstructor(NO_TYPES);
-			res = constructor.newInstance(NO_OBJECTS);
+			return constructor.newInstance(NO_OBJECTS);
 		}
 		catch (final Exception e)
 		{
 			e.printStackTrace();
 		}
-		return res;
+		return null;
 	}
 
 	public static <T extends Annotation> Optional<AnnotatedMethod<T>> gatherAnnotatedMethod(Class<?> type,
@@ -84,7 +83,7 @@ public final class ReflectUtils
 		return !packageName.startsWith("java") && !packageName.startsWith("sun");
 	}
 
-	public static record AnnotatedMethod<T extends Annotation>(Method method, T annotation)
+	public record AnnotatedMethod<T extends Annotation>(Method method, T annotation)
 	{
 	}
 }
